@@ -20,6 +20,5 @@ import server.views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', server.views.login, name='login'),
-    path('kakao', server.views.kakao_login, name='kakao_login'),
     path('accounts/', include('allauth.urls')),
 ]
