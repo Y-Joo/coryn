@@ -7,7 +7,8 @@ response = requests.request("GET", url, headers=headers, params=querystring)
 data = response.json()
 tickers = []
 for coin in data:
-    tickers.append(coin['market'])
+    if coin['market'].split('-')[0] == "KRW":
+        tickers.append([coin['market'], coin['korean_name']])
 print(tickers)
 #url = "https://api.upbit.com/v1/ticker"
 # for tic in tickers:
