@@ -11,7 +11,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-
+from django.apps import AppConfig
+from secret.key import DataBaseConfig
+AppConfig.default = False
 
 import os
 
@@ -41,22 +43,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'server',
-
-    #allauth
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-
-    #provider
-    'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.kakao',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -88,9 +82,16 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': DataBaseConfig.NAME,
+        'USER': DataBaseConfig.USER,
+        'PASSWORD': DataBaseConfig.PASSWORD,
+        'HOST': DataBaseConfig.HOST,
+        'PORT': DataBaseConfig.PORT,
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+        },
+    },
 }
 
 
@@ -136,11 +137,3 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend'
-)
-
-SITE_ID = 1
-LOGIN_REDIRECT_URL = '/'
