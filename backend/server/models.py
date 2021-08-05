@@ -9,6 +9,7 @@ from django.db import models
 
 
 class Coin(models.Model):
+    id = models.BigAutoField(primary_key=True)
     coin_name = models.CharField(blank=True, null=True, max_length=100)
     kr_name = models.CharField(blank=True, null=True, max_length=100)
     ticker = models.CharField(blank=True, null=True, max_length=100)
@@ -19,8 +20,6 @@ class Coin(models.Model):
 
 class CoinPrice(models.Model):
     price = models.DecimalField(decimal_places=2, max_digits=20)
-    low_price = models.DecimalField(decimal_places=2, max_digits=20)
-    high_price = models.DecimalField(decimal_places=2, max_digits=20)
     coin = models.ForeignKey(Coin, related_name='coin_price', on_delete=models.CASCADE)
 
     class Meta:

@@ -8,6 +8,7 @@ class CoinPriceSerializer(serializers.ModelSerializer):
         model = CoinPrice
         fields = '__all__'
 
+
 class CoinNewsSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -16,8 +17,8 @@ class CoinNewsSerializer(serializers.ModelSerializer):
 
 
 class CoinSerializer(serializers.ModelSerializer):
-    coin_price = CoinPriceSerializer()
-    coin_news = CoinNewsSerializer(many=True)
+    coin_price = CoinPriceSerializer(default=True)
+    coin_news = CoinNewsSerializer(default=True, many=True)
 
     class Meta:
         model = Coin

@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-import server.views
+from server import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/crawl/', server.views.CoinView)
+    path('api/v1/create-coins', views.CoinUpdateView.as_view()),
+    path('api/v1/coin-list', views.CoinListView.as_view()),
+    path('api/v1/update-price', views.CoinPriceUpdateView.as_view())
 ]
