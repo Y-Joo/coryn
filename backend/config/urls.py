@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/create-coins', views.CoinUpdateView.as_view()),
     path('api/v1/coin-list', views.CoinListView.as_view()),
-    path('api/v1/update-price', views.CoinPriceUpdateView.as_view())
+    path('api/v1/update-price', views.CoinPriceUpdateView.as_view()),
+    path('api/v1/update-candle', views.CoinCandleUpdateView.as_view())
 ]

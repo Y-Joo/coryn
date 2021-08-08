@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="coryn" uuid="64cf3062-fff7-459a-9359-91f34ea0623c">
+    <data-source source="LOCAL" name="coryn_database" uuid="6cc510e4-edf5-4ccf-9c9c-60a397feaeda">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>

@@ -19,9 +19,10 @@ class Coin(models.Model):
 
 
 class CoinPrice(models.Model):
+    id = models.BigAutoField(primary_key=True)
     price = models.DecimalField(decimal_places=2, null=True, max_digits=20)
-    low = models.DecimalField(decimal_places=2, null=True, max_digits=20)
-    high = models.DecimalField(decimal_places=2, null=True, max_digits=20)
+    high = models.TextField(null=True)
+    low = models.TextField(null=True)
     coin = models.ForeignKey(Coin, related_name='coin_price', on_delete=models.CASCADE)
 
     class Meta:
@@ -29,6 +30,7 @@ class CoinPrice(models.Model):
 
 
 class CoinNews(models.Model):
+    id = models.BigAutoField(primary_key=True)
     type = models.IntegerField()
     title = models.CharField(blank=True, null=True, max_length=100)
     content = models.CharField(blank=True, null=True, max_length=100)
