@@ -19,8 +19,8 @@ from server import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/create-coins', views.CoinUpdateView.as_view()),
-    path('api/v1/coin-list', views.CoinListView.as_view()),
-    path('api/v1/update-price', views.CoinPriceUpdateView.as_view()),
-    path('api/v1/update-candle', views.CoinCandleUpdateView.as_view())
+    path('api/v1/coin', views.CoinListView.as_view()),
+    path('api/v1/coin/<str:coin_ticker>', views.CoinDetailView.as_view()),
+    path('api/v1/coin/price', views.CoinPriceView.as_view()),
+    path('api/v1/coin/candle/<str:unit>/<str:coin_ticker>', views.CoinCandleView.as_view()),
 ]

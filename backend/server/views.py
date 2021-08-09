@@ -6,10 +6,10 @@ from .serializers import CoinSerializer, CoinPriceSerializer, CoinNewsSerializer
 from .models import Coin, CoinNews, CoinPrice
 from server.modules.get_coin_list import crawl_coin_name
 from server.modules.get_price import get_current_price
-from server.modules.get_candle import get_minute_candle
+from server.modules.get_candle import get_minute_candle, get_hour_candle, get_day_candle, get_week_candle
 
 
-class CoinUpdateView(APIView):
+class CoinListView(APIView):
     @staticmethod
     def get_object(tic):
         try:
@@ -18,6 +18,12 @@ class CoinUpdateView(APIView):
             return None
 
     def get(self, request):
+        queryset = Coin.objects.all()
+        serializer_class = CoinSerializer(data=queryset, many=True, partial=True)
+        serializer_class.is_valid()
+        return JsonResponse(serializer_class.data, safe=False)
+
+    def put(self, request):
         coins = crawl_coin_name()
         for coin in coins:
             _coin = self.get_object(coin['ticker'])
@@ -30,15 +36,7 @@ class CoinUpdateView(APIView):
         return Response(status=status.HTTP_200_OK)
 
 
-class CoinListView(APIView):
-    def get(self, request):
-        queryset = Coin.objects.all()
-        serializer_class = CoinSerializer(data=queryset, many=True, partial=True)
-        serializer_class.is_valid()
-        return JsonResponse(serializer_class.data, safe=False)
-
-
-class CoinPriceUpdateView(APIView):
+class CoinPriceView(APIView):
     @staticmethod
     def get_object(pk):
         try:
@@ -46,7 +44,7 @@ class CoinPriceUpdateView(APIView):
         except CoinPrice.DoesNotExist:
             return None
 
-    def get(self, request):
+    def put(self, request):
         queryset = Coin.objects.all().values("ticker", "id")
         price_list = get_current_price(queryset)
         for price in price_list:
@@ -60,7 +58,7 @@ class CoinPriceUpdateView(APIView):
         return Response(status=status.HTTP_200_OK)
 
 
-class CoinCandleUpdateView(APIView):
+class CoinCandleView(APIView):
     @staticmethod
     def get_object(pk):
         try:
@@ -68,9 +66,23 @@ class CoinCandleUpdateView(APIView):
         except CoinPrice.DoesNotExist:
             return None
 
-    def get(self, request):
+    def get(self, request, unit, coin_ticker):
+        obj = Coin.objects.get(ticker=coin_ticker)
+        queryset = CoinPrice.objects.filter(coin_id=obj.__dict__['id'])
+        serializer_class = CoinPriceSerializer(data=queryset, many=True, partial=True)
+        serializer_class.is_valid()
+        return JsonResponse(serializer_class.data, safe=False)
+
+    def put(self, request, unit):
         queryset = Coin.objects.all().values("ticker", "id")
-        coin_candles = get_minute_candle(queryset)
+        if unit == 'minute':
+            coin_candles = get_minute_candle(queryset)
+        elif unit == 'hour':
+            coin_candles = get_hour_candle(queryset)
+        elif unit == 'day':
+            coin_candles = get_day_candle(queryset)
+        elif unit == 'week':
+            coin_candles = get_week_candle(queryset)
         for candles in coin_candles:
             coin = self.get_object(candles['coin'])
             if not coin:
@@ -82,4 +94,10 @@ class CoinCandleUpdateView(APIView):
         return Response(status=status.HTTP_200_OK)
 
 
+class CoinDetailView(APIView):
+    def get(self, request, coin_ticker):
+        queryset = Coin.objects.filter(ticker=coin_ticker)
+        serializer_class = CoinSerializer(data=queryset, many=True, partial=True)
+        serializer_class.is_valid()
+        return JsonResponse(serializer_class.data, safe=False)
 
