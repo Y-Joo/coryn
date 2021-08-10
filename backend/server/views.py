@@ -1,3 +1,4 @@
+import json
 from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.views import APIView
@@ -50,12 +51,7 @@ class CoinPriceView(APIView):
         queryset = Coin.objects.all().values("ticker", "id")
         price_list = get_current_price(queryset)
         current_prices = CoinPrice.objects.all()
-        # for price in price_list:
-        #     coin = self.get_object(price['coin'])
-        #     if not coin:
-        #         coin_price_serializer = CoinPriceSerializer(data=price, partial=True)
-        #     else:
-        #         coin_price_serializer = CoinPriceSerializer(coin, price, partial=True)
+
         coin_price_serializer = CoinPriceSerializer(current_prices, price_list, partial=True, many=True)
         if coin_price_serializer.is_valid():
             coin_price_serializer.save()
@@ -73,15 +69,33 @@ class CoinCandleView(APIView):
             return None
 
     def get(self, request, unit, coin_ticker):
-        print('coin candle Get')
         obj = Coin.objects.get(ticker=coin_ticker)
-        queryset = CoinPrice.objects.filter(coin_id=obj.__dict__['id'])
-        serializer_class = CoinPriceSerializer(data=queryset, many=True, partial=True)
-        serializer_class.is_valid()
-        return JsonResponse(serializer_class.data, safe=False)
+        queryset = CoinPrice.objects.get(coin_id=obj.__dict__['id'])
+        serializer_class = CoinPriceSerializer(queryset)
+        if unit == 'minute':
+            high = serializer_class.data['minute_high']
+            low = serializer_class.data['minute_low']
+            open = serializer_class.data['minute_open']
+            close = serializer_class.data['minute_close']
+        elif unit == 'hour':
+            high = serializer_class.data['hour_high']
+            low = serializer_class.data['hour_low']
+            open = serializer_class.data['hour_open']
+            close = serializer_class.data['hour_close']
+        elif unit == 'day':
+            high = serializer_class.data['day_high']
+            low = serializer_class.data['day_low']
+            open = serializer_class.data['day_open']
+            close = serializer_class.data['day_close']
+        elif unit == 'week':
+            high = serializer_class.data['week_high']
+            low = serializer_class.data['week_low']
+            open = serializer_class.data['week_open']
+            close = serializer_class.data['week_close']
+
+        return JsonResponse({'high': high, 'low': low, 'open': open, 'close': close}, safe=False)
 
     def put(self, request, unit):
-        print('coin candle Put')
         queryset = Coin.objects.all().values("ticker", "id")
         if unit == 'minute':
             coin_candles = get_minute_candle(queryset)
@@ -91,14 +105,10 @@ class CoinCandleView(APIView):
             coin_candles = get_day_candle(queryset)
         elif unit == 'week':
             coin_candles = get_week_candle(queryset)
-        for candles in coin_candles:
-            coin = self.get_object(candles['coin'])
-            if not coin:
-                coin_price_serializer = CoinPriceSerializer(data=candles, partial=True)
-            else:
-                coin_price_serializer = CoinPriceSerializer(coin, candles, partial=True)
-            if coin_price_serializer.is_valid():
-                coin_price_serializer.save()
+        coins = CoinPrice.objects.all()
+        coin_price_serializer = CoinPriceSerializer(coins, coin_candles, many=True, partial=True)
+        if coin_price_serializer.is_valid():
+            coin_price_serializer.save()
         return Response(status=status.HTTP_200_OK)
 
 
