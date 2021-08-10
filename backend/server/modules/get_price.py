@@ -1,7 +1,8 @@
-import pyupbit
+import pyupbit, time
 
 
 def get_current_price(coins):
+    starttime = time.time()
     tickers=[]
     for item in coins:
         tickers.append(item['ticker'])
@@ -12,4 +13,5 @@ def get_current_price(coins):
     for coin in coins:
         price_dict = {'coin': coin['id'], 'price': prices[coin['ticker']]}
         price_list.append(price_dict)
+    print(time.time() - starttime)
     return price_list
