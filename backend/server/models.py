@@ -21,6 +21,7 @@ class Coin(models.Model):
 class CoinPrice(models.Model):
     id = models.BigAutoField(primary_key=True)
     price = models.DecimalField(decimal_places=2, null=True, max_digits=20)
+    day_change = models.DecimalField(decimal_places=2, null=True, max_digits=20)
     minute_high = models.TextField(blank=True, null=True)
     minute_low = models.TextField(blank=True, null=True)
     minute_open = models.TextField(blank=True, null=True)

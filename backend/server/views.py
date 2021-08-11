@@ -48,7 +48,7 @@ class CoinPriceView(APIView):
             return None
 
     def put(self, request):
-        queryset = Coin.objects.all().values("ticker", "id")
+        queryset = Coin.objects.all().values("ticker", "id", "coin_price__day_open")
         price_list = get_current_price(queryset)
         current_prices = CoinPrice.objects.all()
 
