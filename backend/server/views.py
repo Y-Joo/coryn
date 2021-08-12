@@ -119,3 +119,7 @@ class CoinDetailView(APIView):
         serializer_class.is_valid()
         return JsonResponse(serializer_class.data, safe=False)
 
+
+class CoinNewsView(APIView):
+
+

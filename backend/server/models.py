@@ -48,9 +48,10 @@ class CoinNews(models.Model):
     id = models.BigAutoField(primary_key=True)
     type = models.IntegerField()
     title = models.CharField(blank=True, null=True, max_length=100)
-    content = models.CharField(blank=True, null=True, max_length=100)
+    source = models.CharField(blank=True, null=True, max_length=100)
+    link = models.CharField(blank=True, null=True, max_length=100)
     upload_date = models.DateTimeField()
-    update_date = models.DateTimeField()
+    release_date = models.DateTimeField()
 
     coin = models.ForeignKey(Coin, related_name="coin_news", on_delete=models.CASCADE)
 
