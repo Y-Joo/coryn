@@ -8,6 +8,7 @@ from .models import Coin, CoinNews, CoinPrice
 from server.modules.get_coin_list import crawl_coin_name
 from server.modules.get_price import get_current_price
 from server.modules.get_candle import get_minute_candle, get_hour_candle, get_day_candle, get_week_candle
+from server.modules.crawl_google import CrawlerGoogle
 
 
 class CoinListView(APIView):
@@ -121,5 +122,21 @@ class CoinDetailView(APIView):
 
 
 class CoinNewsView(APIView):
+    def put(self, request):
+        coin_name_list = Coin.objects.all().values('coin_name', 'id')
+        crawler = CrawlerGoogle()
+        queryset = crawler.crawl_coin_list(coin_name_list)
+        serializer_class = CoinNewsSerializer(data=queryset, many=True, partial=True)
+        if serializer_class.is_valid():
+            serializer_class.save()
+            print('save!')
+        else:
+            print(serializer_class.errors)
+        return Response(status=status.HTTP_200_OK)
 
+    def get(self, request):
+        queryset = CoinNews.objects.all()
+        serializer_class = CoinNewsSerializer(data=queryset, many=True)
+        serializer_class.is_valid()
+        return JsonResponse(serializer_class.data, safe=False)
 

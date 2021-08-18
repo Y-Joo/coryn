@@ -47,11 +47,11 @@ class CoinPrice(models.Model):
 class CoinNews(models.Model):
     id = models.BigAutoField(primary_key=True)
     type = models.IntegerField()
-    title = models.CharField(blank=True, null=True, max_length=100)
-    source = models.CharField(blank=True, null=True, max_length=100)
-    link = models.CharField(blank=True, null=True, max_length=100)
-    upload_date = models.DateTimeField()
-    release_date = models.DateTimeField()
+    title = models.TextField(blank=True, null=True)
+    source = models.TextField(blank=True, null=True)
+    link = models.TextField(blank=True, null=True)
+    upload_date = models.DateTimeField(blank=True, null=True)
+    release_date = models.DateTimeField(blank=True, null=True)
 
     coin = models.ForeignKey(Coin, related_name="coin_news", on_delete=models.CASCADE)
 
