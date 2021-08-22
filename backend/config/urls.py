@@ -14,15 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from server import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/coin/', views.CoinListView.as_view()),
-    path('api/v1/coin/detail/<str:coin_ticker>/', views.CoinDetailView.as_view()),
-    path('api/v1/coin/price/', views.CoinPriceView.as_view()),
-    path('api/v1/coin/candle/<str:unit>/', views.CoinCandleView.as_view()),
-    path('api/v1/coin/candle/<str:unit>/<str:coin_ticker>/', views.CoinCandleView.as_view()),
-    path('api/v1/coin/news/', views.CoinNewsView.as_view()),
+    path('api/v1/coin/', include('coin.urls')),
+    path('api/v1/coin/price/', include('price.urls')),
+    path('api/v1/coin/news/', include('news.urls')),
 ]

@@ -25,7 +25,6 @@ class CoinPriceListSerializer(serializers.ListSerializer):
 
 
 class CoinPriceSerializer(serializers.ModelSerializer):
-
     class Meta:
         list_serializer_class = CoinPriceListSerializer
         model = CoinPrice
@@ -33,7 +32,6 @@ class CoinPriceSerializer(serializers.ModelSerializer):
 
 
 class CoinNewsSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = CoinNews
         fields = '__all__'

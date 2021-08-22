@@ -1,36 +1,27 @@
-import json
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.shortcuts import get_list_or_404
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import CoinSerializer, CoinPriceSerializer, CoinNewsSerializer,CoinPriceListSerializer
-from .models import Coin, CoinNews, CoinPrice
-from server.modules.get_coin_list import crawl_coin_name
-from server.modules.get_price import get_current_price
-from server.modules.get_candle import get_minute_candle, get_hour_candle, get_day_candle, get_week_candle
-from server.modules.crawl_google import CrawlerGoogle
+from .serializers import CoinSerializer, CoinPriceSerializer
+from .models import Coin, CoinPrice
+from core.modules import crawl_coin_name
+from core.modules.get_price import get_current_price
+from core.modules import get_minute_candle, get_hour_candle, get_day_candle, get_week_candle
 
 
 class CoinListView(APIView):
-    @staticmethod
-    def get_object(tic):
-        try:
-            return Coin.objects.get(ticker=tic)
-        except Coin.DoesNotExist:
-            return None
-
     def get(self, request):
-        print('get coin List')
-        queryset = Coin.objects.all()
+        queryset = get_list_or_404(Coin)
         serializer_class = CoinSerializer(data=queryset, many=True, partial=True)
         serializer_class.is_valid()
         return JsonResponse(serializer_class.data, safe=False)
 
     def put(self, request):
-        print('put coin List')
         coins = crawl_coin_name()
         for coin in coins:
-            _coin = self.get_object(coin['ticker'])
+            _coin = get_object_or_404(Coin, ticker=coin['ticker'])
             if not _coin:
                 coin_serializer = CoinSerializer(data=coin, partial=True)
             else:
@@ -117,26 +108,6 @@ class CoinDetailView(APIView):
     def get(self, request, coin_ticker):
         queryset = Coin.objects.filter(ticker=coin_ticker)
         serializer_class = CoinSerializer(data=queryset, many=True, partial=True)
-        serializer_class.is_valid()
-        return JsonResponse(serializer_class.data, safe=False)
-
-
-class CoinNewsView(APIView):
-    def put(self, request):
-        coin_name_list = Coin.objects.all().values('coin_name', 'id')
-        crawler = CrawlerGoogle()
-        queryset = crawler.crawl_coin_list(coin_name_list)
-        serializer_class = CoinNewsSerializer(data=queryset, many=True, partial=True)
-        if serializer_class.is_valid():
-            serializer_class.save()
-            print('save!')
-        else:
-            print(serializer_class.errors)
-        return Response(status=status.HTTP_200_OK)
-
-    def get(self, request):
-        queryset = CoinNews.objects.all()
-        serializer_class = CoinNewsSerializer(data=queryset, many=True)
         serializer_class.is_valid()
         return JsonResponse(serializer_class.data, safe=False)
 
