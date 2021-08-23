@@ -2,7 +2,6 @@ from rest_framework import serializers
 from core.models import CoinPrice
 
 
-
 class CoinPriceListSerializer(serializers.ListSerializer):
     def update(self, instance, validated_data):
         # Maps for id->instance and id->data item.
