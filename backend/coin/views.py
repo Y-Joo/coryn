@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import CoinSerializer
 from core.models import Coin
-from core.modules import crawl_coin_name
+from core.modules.get_coin_list import crawl_coin_name
 
 
 class CoinListView(APIView):
