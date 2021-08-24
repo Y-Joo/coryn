@@ -23,7 +23,7 @@ class CrawlerGoogle:
         }
         return news
 
-    def crawl(self, url: str):
+    def crawl(self, url: str, coin_id_list, coin):
         response = urlopen(url)
         soup = BeautifulSoup(response, "html.parser")
         news_list = []
@@ -43,19 +43,14 @@ class CrawlerGoogle:
             release_date = None
             news = self.create_news(title, source, link, upload_date, release_date)
             news_list.append(news)
-
+            coin_id_list.append(coin['id'])
         return news_list
 
     def crawl_coin_list(self, coin_list):
         news_list = []
-        cnt = 0
+        coin_id_list = []
         for coin in coin_list:
             url = self.url_parser(coin['coin_name'].replace(' ', ''))
-            item = self.crawl(url)
+            item = self.crawl(url, coin_id_list, coin)
             news_list.extend(item)
-            cnt += 1
-            if cnt < 40:
-                continue
-            if cnt == 60:
-                break
-        return news_list
+        return news_list, coin_id_list
