@@ -1,11 +1,26 @@
 from django.db import models
 
 
+class CoinNews(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    type = models.IntegerField()
+    title = models.TextField(blank=True, null=True)
+    source = models.TextField(blank=True, null=True)
+    link = models.TextField(blank=True, null=True, unique=True)
+    upload_date = models.DateTimeField(blank=True, null=True)
+    release_date = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        db_table = 'coin_news'
+
+
 class Coin(models.Model):
     id = models.BigAutoField(primary_key=True)
     coin_name = models.CharField(blank=True, null=True, max_length=100)
     kr_name = models.CharField(blank=True, null=True, max_length=100)
     ticker = models.CharField(blank=True, null=True, max_length=100)
+
+    coin_newses = models.ManyToManyField(CoinNews)
 
     class Meta:
         db_table = 'coin'
@@ -31,22 +46,7 @@ class CoinPrice(models.Model):
     week_low = models.TextField(blank=True, null=True)
     week_open = models.TextField(blank=True, null=True)
     week_close = models.TextField(blank=True, null=True)
-    coin = models.ForeignKey(Coin, related_name='coin_price', on_delete=models.CASCADE)
+    coin = models.ForeignKey(Coin, related_name='coin_price', on_delete=models.CASCADE, null=True)
 
     class Meta:
         db_table = 'coin_price'
-
-
-class CoinNews(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    type = models.IntegerField()
-    title = models.TextField(blank=True, null=True)
-    source = models.TextField(blank=True, null=True)
-    link = models.TextField(blank=True, null=True)
-    upload_date = models.DateTimeField(blank=True, null=True)
-    release_date = models.DateTimeField(blank=True, null=True)
-
-    coin = models.ForeignKey(Coin, related_name="coin_news", on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'coin_news'

@@ -13,8 +13,8 @@ def preprocessingDict(dic: dict):
 
 
 def crontab():
-    result = dict()
+    result = []
 
     urls = coinmarketcal.get_urls()
     for url in urls:
-        coinmarketcal.do_crawl(url, result)
+        coinmarketcal.do_crawl(url)

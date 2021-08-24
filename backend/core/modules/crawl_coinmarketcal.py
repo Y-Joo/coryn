@@ -15,7 +15,7 @@ def get_urls():
         urls.append("https://coinmarketcal.com/en/" + "?page=" + str(i))
     return urls
 
-def do_crawl(url, result):
+def do_crawl(url):
     html = urlopen(url)
 
     # # 사이트에 문제가 있으면 함수 종료
@@ -29,7 +29,7 @@ def do_crawl(url, result):
     coin_date_data = soup.select("h5[class = 'card__date mt-0']")
     coin_title_data = soup.select("article.col-xl-3.col-lg-4.col-md-6.py-3 > div.card.text-center > div.card__body > a.link-detail > h5.card__title.mb-0.ellipsis")
 
-    min_len = min(len(coin_name_data), len(coin_date_data), len(coin_title_data),)
+    min_len = min(len(coin_name_data), len(coin_date_data), len(coin_title_data))
 
     # 전처리 이름[이름, 태그], 호재 시간[년, 월, 일], 추가된 시간[년, 월, 일], 제목[문자열], 상세내용[문자열]
     # 전처리 후 패킹
@@ -52,8 +52,8 @@ def do_crawl(url, result):
         # 패킹
         item_coin = {
             'symbol': coin_name[1],
-            'name' : coin_name[0],
-            'date' : coin_date,
+            'name': coin_name[0],
+            'date': coin_date,
             'title': coin_title,
         }
         result[coin_link] = item_coin

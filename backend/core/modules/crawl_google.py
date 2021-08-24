@@ -12,7 +12,7 @@ class CrawlerGoogle:
         return url
 
     @staticmethod
-    def create_news(title, source, link, upload_date, release_date, coin_id):
+    def create_news(title, source, link, upload_date, release_date):
         news = {
             'type': 0,
             'title': title,
@@ -20,11 +20,10 @@ class CrawlerGoogle:
             'link': link,
             'upload_date': upload_date,
             'release_date': release_date,
-            'coin': coin_id,
         }
         return news
 
-    def crawl(self, url: str, coin_id):
+    def crawl(self, url: str):
         response = urlopen(url)
         soup = BeautifulSoup(response, "html.parser")
         news_list = []
@@ -42,20 +41,21 @@ class CrawlerGoogle:
             upload_date = item.find('pubdate').string
             upload_date = maya.parse(upload_date).datetime() + timedelta(hours=9)
             release_date = None
-            news = self.create_news(title, source, link, upload_date, release_date, coin_id)
+            news = self.create_news(title, source, link, upload_date, release_date)
             news_list.append(news)
 
         return news_list
 
-    def crawl_coin(self, coin):
-        url = self.url_parser(coin)
-        news_list = self.crawl(url)
-        return news_list
-
     def crawl_coin_list(self, coin_list):
         news_list = []
+        cnt = 0
         for coin in coin_list:
             url = self.url_parser(coin['coin_name'].replace(' ', ''))
-            item = self.crawl(url, coin['id'])
+            item = self.crawl(url)
             news_list.extend(item)
+            cnt += 1
+            if cnt < 40:
+                continue
+            if cnt == 60:
+                break
         return news_list

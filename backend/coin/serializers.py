@@ -18,7 +18,6 @@ class CoinNewsSerializer(serializers.ModelSerializer):
 
 class CoinSerializer(serializers.ModelSerializer):
     coin_price = CoinPriceSerializer(many=True)
-    coin_news = CoinNewsSerializer(many=True)
 
     class Meta:
         model = Coin
