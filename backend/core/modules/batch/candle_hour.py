@@ -1,3 +1,5 @@
 import requests
+from request_parser import parse_request
 
-requests.put('http://127.0.0.1:8000/api/v1/coin/candle/hour/')
+url = parse_request('price/candle/hour/')
+requests.put(url)
