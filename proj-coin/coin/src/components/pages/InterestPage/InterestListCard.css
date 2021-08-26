@@ -1,0 +1,40 @@
+.InterestListCard {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+}
+.InterestListCardCoin {
+    display: flex;
+    justify-content: space-between;
+
+}
+.InterestListCardInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.InterestListCardIcon {
+    background-color:whitesmoke;
+    width: 3em;
+    height: 3em;
+    border-radius: 0.5em;
+    margin: 1em;
+}
+.InterestListCardPricePerBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.InterestListCardPricePer {
+    margin-right: 2em;
+    padding: 0.2em 0.6em;
+    border-radius: 0.5em;
+    background-color: rgba(219,78,55,0.2);
+    color: rgb(219,78,55);
+}
+.InterestListCardCoinName{
+    font-size: 11px;
+}
+.InterestListCardCoinPrice{
+    font-size: 14px;
+}
