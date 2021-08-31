@@ -19,6 +19,7 @@ class Coin(models.Model):
     coin_name = models.CharField(blank=True, null=True, max_length=100)
     kr_name = models.CharField(blank=True, null=True, max_length=100)
     ticker = models.CharField(blank=True, null=True, max_length=100)
+    coin_img = models.TextField(blank=True, null=True)
 
     coin_newses = models.ManyToManyField(CoinNews)
 

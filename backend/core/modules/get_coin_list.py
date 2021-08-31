@@ -13,6 +13,7 @@ def crawl_coin_name():
             coin['ticker'] = coin.pop('market')
             coin['kr_name'] = coin.pop('korean_name')
             coin['coin_name'] = coin.pop('english_name')
+            coin['coin_img'] = 'https://static.upbit.com/logos/' + coin['ticker'].split('-')[1] + '.png'
             coins.append(coin)
     return coins
 
