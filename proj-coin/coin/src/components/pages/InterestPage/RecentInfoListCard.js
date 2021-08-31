@@ -22,8 +22,8 @@ function RecentInfoListCard(props) {
             </div>
         </div>
         <div className="RecentInfoListCardNews">
-            <div className="RecentInfoListCardTime">20분 전</div>
-            <div className="RecentInfoListCardNewsTitle">{props.titie}</div>
+            <div className="RecentInfoListCardTime">{props.upload_date}</div>
+            <div className="RecentInfoListCardNewsTitle">{props.title}</div>
         </div>
     </div>
     );

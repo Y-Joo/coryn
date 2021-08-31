@@ -8,17 +8,17 @@ const axios = require('axios');
 function InterestList() {
     const [videoData, setVideoData] = useState([])
     useEffect(() => {
-        axios.get(`http://54.180.16.31:5000/api/v1/coin/`)
+        axios.get(`/api/v1/coin/list/`)
             .then((response) => {
-                console.log(response)
-                setVideoData(response.data.data);
+                console.log(response.data)
+                setVideoData(response.data);
             }).catch((error) => {
                 console.log(error);
             });
      }, [])
     const items = videoData
-    const ItemList = items && items .map((item) =>
-    (<li><Card name={item.coin.name ?? ''} price={item.coin_price.price ?? ''} pricerate={item.coin_price.daychange ?? ''}></Card><Divider/></li>
+    const ItemList = items && items.map((item) =>
+    (<li><Card name={item.coin_name ?? ''} price={item.coin_price[0].price ?? ''} pricerate={item.coin_price[0].day_change + '%' ?? ''}></Card><Divider/></li>
     )
     );
     return (
