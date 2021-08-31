@@ -14,6 +14,7 @@ function RecentInfoList() {
                 setVideoData(response.data);
             }).catch((error) => {
                 console.log(error);
+                console.log(error);
             });
      }, [])
      //const date = videoData.upload_date.substring(0,18);
