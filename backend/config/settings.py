@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 from django.apps import AppConfig
 from secret.key import DataBaseConfig
+import pymysql
+pymysql.install_as_MySQLdb()
 AppConfig.default = False
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -27,7 +29,7 @@ SECRET_KEY = 'django-insecure-rr-)8^%(4trl9qp!8#rn9)sd)ks&#-spxmshterbb1%+_#5h8c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '127.0.0.1:3000', '127.0.0.1:8000']
 
 
 # Application definition
@@ -45,9 +47,11 @@ INSTALLED_APPS = [
     'coin',
     'price',
     'news',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -77,7 +81,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
+CORS_ORIGIN_WHITELIST = [
+        'http://127.0.0.1:3000',
+        'http://127.0.0.1:8000',
+]
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -139,3 +146,5 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ORIGIN_ALLOW_ALL = True
