@@ -1,3 +1,5 @@
 venv
 secret
 test
+.idea
+__pycache__
