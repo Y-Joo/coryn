@@ -1,5 +1,5 @@
 import collections
-import crawl_coinmarketcal as coinmarketcal
+from core.modules.news import crawler_coinmarketcal as coinmarketcal
 
 
 def preprocessingDict(dic: dict):

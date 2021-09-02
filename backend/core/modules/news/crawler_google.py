@@ -1,8 +1,8 @@
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
-import maya
-import time
 from datetime import timedelta
+import maya
+from ._news import create_news
 
 
 class CrawlerGoogle:
@@ -12,18 +12,7 @@ class CrawlerGoogle:
         return url
 
     @staticmethod
-    def create_news(title, source, link, upload_date, release_date):
-        news = {
-            'type': 0,
-            'title': title,
-            'source': source,
-            'link': link,
-            'upload_date': upload_date,
-            'release_date': release_date,
-        }
-        return news
-
-    def crawl(self, url: str, coin_id_list, coin):
+    def do_crawl(url: str, coin_id_list, coin):
         response = urlopen(url)
         soup = BeautifulSoup(response, "html.parser")
         news_list = []
@@ -41,16 +30,16 @@ class CrawlerGoogle:
             upload_date = item.find('pubdate').string
             upload_date = maya.parse(upload_date).datetime() + timedelta(hours=9)
             release_date = None
-            news = self.create_news(title, source, link, upload_date, release_date)
+            news = create_news(title, source, link, upload_date, release_date)
             news_list.append(news)
             coin_id_list.append(coin['id'])
         return news_list
 
-    def crawl_coin_list(self, coin_list):
+    def get_coin_news_from_coin_names(self, coin_names):
         news_list = []
         coin_id_list = []
-        for coin in coin_list:
-            url = self.url_parser(coin['coin_name'].replace(' ', ''))
-            item = self.crawl(url, coin_id_list, coin)
+        for coin_name in coin_names:
+            url = self.url_parser(coin_name['coin_name'].replace(' ', ''))
+            item = self.do_crawl(url, coin_id_list, coin_name)
             news_list.extend(item)
         return news_list, coin_id_list
