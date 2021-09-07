@@ -27,6 +27,17 @@ class Coin(models.Model):
         db_table = 'coin'
 
 
+class CoinCoinNewses(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    coin = models.ForeignKey(Coin, models.DO_NOTHING)
+    coinnews = models.ForeignKey('CoinNews', models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'coin_coin_newses'
+        unique_together = (('coin', 'coinnews'),)
+
+
 class CoinPrice(models.Model):
     id = models.BigAutoField(primary_key=True)
     price = models.DecimalField(decimal_places=2, null=True, max_digits=20)
