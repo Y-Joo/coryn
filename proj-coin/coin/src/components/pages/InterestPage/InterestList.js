@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Card from './InterestListCard'
 import './InterestList.css'
 import Divider from '@material-ui/core/Divider';
+import { Link } from 'react-router-dom';
 
 const axios = require('axios');
 
@@ -18,7 +19,7 @@ function InterestList() {
      }, [])
     const items = videoData
     const ItemList = items && items.map((item) =>
-    (<li><Card name={item.coin_name ?? ''} price={item.coin_price[0].price ?? ''} pricerate={item.coin_price[0].day_change + '%' ?? ''}></Card><Divider/></li>
+    (<li><Link to={"/detail/"+item.ticker}  style={{textDecoration:'none',color:'inherit'}}><Card name={item.coin_name ?? ''} price={item.coin_price[0].price ?? ''} pricerate={item.coin_price[0].day_change ?? ''} img={item.coin_img   ?? ''}></Card><Divider/></Link></li>
     )
     );
     return (
@@ -29,7 +30,6 @@ function InterestList() {
             <div className="interestListBox">
                 <ul>
                     {ItemList}
-                    <li><Card></Card></li>
                 </ul>
             </div>
         </div>

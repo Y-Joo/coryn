@@ -29,7 +29,7 @@ function App() {
         <Header></Header>
         <Switch>
           <Route exact path="/interest" component={InterestPage} />
-          <Route exact path="/detail" component={DetailPage} />
+          <Route exact path="/detail/:videoId" component={DetailPage} />
           <Route exact path="/calendar" component={CalendarPage} />
         </Switch>
         <BottomBar/>

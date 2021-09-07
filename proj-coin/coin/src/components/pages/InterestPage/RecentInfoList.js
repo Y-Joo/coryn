@@ -23,7 +23,8 @@ function RecentInfoList() {
     const items = videoData
     const ItemList = items && items.map((item) =>
     (
-    <Card title={item.title ?? ''} upload_date={item.upload_date ?? ''}></Card>)
+    <Card title={item.title ?? ''} upload_date={item.upload_date ?? '' } ></Card>)
+    // daychange={item.coin_price.daychange}
     );
     return(
         <div className="recentInfoList">

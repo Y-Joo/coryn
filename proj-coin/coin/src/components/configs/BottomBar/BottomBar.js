@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import BottomNavigation from './BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import RestoreIcon from '@material-ui/icons/Restore';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
+import EventNote from '@material-ui/icons/EventNote';
+import List from '@material-ui/icons/List';
+import Equalizer from '@material-ui/icons/Equalizer';
 
 const useStyles = makeStyles({
   root: {
@@ -54,9 +54,9 @@ export default function BottomBar() {
 
   return (
     <div className={classes.root}>
-      <Link to='/interest' className={classes.linkbox}><div id="1" className={classes.button} onClick={(e) =>onclickHandler(e)} style={{color:`${colorHandler(1)}`}}><RestoreIcon style={{height:'50%', width:'auto', pointerEvents:'none'}}/></div></Link>
-      <Link to='/calendar' className={classes.linkbox}><div id="2" className={classes.button} onClick={(e) =>onclickHandler(e)} style={{color:`${colorHandler(2)}`}}><FavoriteIcon style={{height:'50%', width:'auto', pointerEvents:'none'}}/></div></Link>
-      <Link to='/detail' className={classes.linkbox}><div id="3" className={classes.button} onClick={(e) =>onclickHandler(e)} style={{color:`${colorHandler(3)}`}}><LocationOnIcon style={{height:'50%', width:'auto', pointerEvents:'none'}}/></div></Link>
+      <Link to='/interest' className={classes.linkbox}><div id="1" className={classes.button} onClick={(e) =>onclickHandler(e)} style={{color:`${colorHandler(1)}`}}><List style={{height:'50%', width:'auto', pointerEvents:'none'}}/></div></Link>
+      <Link to='/calendar' className={classes.linkbox}><div id="2" className={classes.button} onClick={(e) =>onclickHandler(e)} style={{color:`${colorHandler(2)}`}}><EventNote style={{height:'50%', width:'auto', pointerEvents:'none'}}/></div></Link>
+      <Link to='/detail' className={classes.linkbox}><div id="3" className={classes.button} onClick={(e) =>onclickHandler(e)} style={{color:`${colorHandler(3)}`}}><Equalizer style={{height:'50%', width:'auto', pointerEvents:'none'}}/></div></Link>
     </div>
     // <span>
     //   <BottomNavigation>

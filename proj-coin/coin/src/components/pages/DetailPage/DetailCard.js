@@ -1,20 +1,20 @@
 import React from 'react';
 import './DetailCard.css'
 
-function InterestListCard() {
+function InterestListCard(props) {
     return(
         <div className="root">
             <div className="coin">
-                <div className="icon"></div>
+                <div className="icon"><img src={props.img} style={{width:'100%', height:'100%'}}></img></div>
                 <div className="info">
-                    <div className="coinname">비트코인</div>
-                    <div className="coinprice">60000000</div>
+                    <div className="coinname">{props.name}</div>
+                    <div className="coinprice">{props.price}</div>
                 </div>
             </div>
             <div className="pricePerBox">
                 <div className="pricePerInnerBox">
-                    <div className="pricePer">+5.92%</div>
-                    <div className="favorites">별</div>
+                    <div className="pricePer">{props.pricerate+'%'}</div>
+                    {/* <div className="favorites">별</div> */}
                 </div>
             </div>
         </div>

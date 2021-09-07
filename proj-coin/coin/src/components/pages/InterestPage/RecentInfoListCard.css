@@ -1,6 +1,5 @@
 .RecentInfoListCard {
     display: flex;
-    justify-content: space-between;
     padding: 1em;
     border-bottom: rgba(0,0,0,0.2) dashed 1px;
 }
@@ -26,21 +25,32 @@
     margin: 3px;
     font-weight: lighter;
 }
-.RecentInfoListCardCoinRisingPrice{
+.RecentInfoListCardCoinRisingPrice_up{
     margin-right: 0.4em;
     padding: 0 0.2em;
     border-radius: 0.2em;
     background-color: rgba(255,0,0,0.3);
 }
-.RecentInfoListCardCoinRisingPriceRate{
+.RecentInfoListCardCoinRisingPriceRate_up{
     padding: 0 0.2em;
     border-radius: 0.2em;
     background-color: rgba(255,0,0,0.3);
 }
+.RecentInfoListCardCoinRisingPrice_down{
+    margin-right: 0.4em;
+    padding: 0 0.2em;
+    border-radius: 0.2em;
+    background-color: rgba(0,0,255,0.3);
+}
+.RecentInfoListCardCoinRisingPriceRate_down{
+    padding: 0 0.2em;
+    border-radius: 0.2em;
+    background-color: rgba(0,0,255,0.3);
+}
 
 
 .RecentInfoListCardNews{
-    width: 50%;
+    width: 100%;
 }
 .RecentInfoListCardTime{
     color: rgba(0,0,0,0.4);
@@ -50,7 +60,7 @@
     font-size: 18px;
     font-weight: bolder;
 }
-.triangle{
+.triangle_up{
   width: 0px;height: 0px;
   border-top:12px solid none;
   border-bottom:12px solid rgba(255,0,0,0.7);
@@ -59,3 +69,12 @@
   margin-right: 0.4em;
   margin-top: 0.1em;
 }
+.triangle_down{
+    width: 0px;height: 0px;
+    border-top:12px solid rgba(0,0,255,0.7);
+    border-bottom:12px solid none;
+    border-right: 7px solid transparent;
+    border-left: 7px solid  transparent;
+    margin-right: 0.4em;
+    margin-top: 0.1em;
+  }
