@@ -5,14 +5,16 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import CoinSerializer
+from .serializers import CoinListSerializer
 from core.models import Coin
 from core.modules.get_coin_list import crawl_coin_name
+from core.modules.candle_to_dict import get_interval_date_times_from_unit_and_interval
 
 
 class CoinListView(APIView):
     def get(self, request):
         queryset = get_list_or_404(Coin)
-        serializer_class = CoinSerializer(data=queryset, many=True, partial=True)
+        serializer_class = CoinListSerializer(data=queryset, many=True, partial=True)
         serializer_class.is_valid()
         return JsonResponse(serializer_class.data, safe=False)
 
@@ -34,4 +36,5 @@ class CoinDetailView(APIView):
         queryset = Coin.objects.filter(ticker=coin_ticker)
         serializer_class = CoinSerializer(data=queryset, many=True, partial=True)
         serializer_class.is_valid()
+        serializer_class.data[0]['times'] = get_interval_date_times_from_unit_and_interval('minute', 201)
         return JsonResponse(serializer_class.data, safe=False)

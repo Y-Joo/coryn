@@ -10,6 +10,12 @@ class CoinPriceSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class CoinCurrentPriceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CoinPrice
+        fields = ['price', 'day_change']
+
+
 class CoinNewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = CoinNews
@@ -18,6 +24,15 @@ class CoinNewsSerializer(serializers.ModelSerializer):
 
 class CoinSerializer(serializers.ModelSerializer):
     coin_price = CoinPriceSerializer(many=True)
+    coin_newses = CoinNewsSerializer(many=True)
+
+    class Meta:
+        model = Coin
+        fields = '__all__'
+
+
+class CoinListSerializer(serializers.ModelSerializer):
+    coin_price = CoinCurrentPriceSerializer(many=True)
 
     class Meta:
         model = Coin
