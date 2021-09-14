@@ -31,7 +31,7 @@ class CoinNewsView(APIView):
         return Response(status=status.HTTP_200_OK)
 
     def get(self, request):
-        queryset = CoinNews.objects.all()
+        queryset = CoinNews.objects.all().order_by('-upload_date')[:100]
         serializer_class = CoinNewsSerializer(data=queryset, many=True)
         serializer_class.is_valid()
         return JsonResponse(serializer_class.data, safe=False)
@@ -64,3 +64,9 @@ class CoinGoodNewsView(APIView):
                 print(serializer_class.errors)
                 print('not save!')
         return Response(status=status.HTTP_200_OK)
+
+    def get(self, request):
+        queryset = CoinNews.objects.filter(type=1)
+        serializer_class = CoinNewsSerializer(data=queryset, many=True)
+        serializer_class.is_valid()
+        return JsonResponse(serializer_class.data, safe=False)

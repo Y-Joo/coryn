@@ -24,7 +24,10 @@ class CoinNewsSerializer(serializers.ModelSerializer):
             coins = []
             for coin_coin_news in coin_coin_newses_serializer.data:
                 coin = Coin.objects.get(id=coin_coin_news['coin'])
+<<<<<<< HEAD
                 print(coin)
+=======
+>>>>>>> c57fe2797cd2bfb9e99e2414252c0ade017e727a
                 coins.append(coin.coin_name)
             representation['coins'] = coins
         except Exception as e:
