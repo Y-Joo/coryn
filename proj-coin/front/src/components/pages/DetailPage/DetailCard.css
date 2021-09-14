@@ -1,0 +1,53 @@
+.root {
+    color: black;
+    border-radius: 0.5em;
+    margin:0.5em;
+    margin-top: 0;
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    line-height: 1;
+}
+.coin {
+    display: flex;
+    justify-content: space-between;
+}
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.icon {
+    background-color: whitesmoke;
+    width: 3em;
+    height: 3em;
+    border-radius: 0.5em;
+    margin: 1em;
+}
+.pricePerBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.pricePerInnerBox{
+    display: flex;
+    justify-content: space-between;
+
+}
+.pricePer {
+    margin-right: 1em;
+    padding: 0.2em 0.6em;
+    border-radius: 0.5em;
+    background-color: rgba(219,78,55,0.2);
+    color: rgb(219,78,55);
+}
+.coinname{
+    font-size: 17px;
+    font-weight: bold;
+}
+.coinprice{
+    font-size: 14px;
+}
+.favorites{
+    margin-right: 2em;
+}
