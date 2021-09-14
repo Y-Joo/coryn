@@ -17,12 +17,27 @@ function InterestList() {
                 console.log(error);
             });
      }, [])
+
+    const [keyword,setKeyword] = useState([]);
+    function searchSpace(event){
+        setKeyword(event.target.value);
+    }
     const items = videoData
-    const ItemList = items && items.map((item) =>
+    const ItemList = items && items.filter((item)=>{
+        if(keyword == '')
+            return item
+        else if(item.coin_name.toLowerCase().includes(keyword.toLowerCase()) || item.kr_name.includes(keyword)){
+            return item
+    }}).map((item) =>
     (<li><Link to={"/detail/"+item.ticker}  style={{textDecoration:'none',color:'inherit'}}><Card name={item.coin_name ?? ''} price={item.coin_price[0].price ?? ''} pricerate={item.coin_price[0].day_change ?? ''} img={item.coin_img   ?? ''}></Card><Divider/></Link></li>
     )
     );
     return (
+        <span>
+        <div style={{display:'flex',boxSizing:'border-box',margin: '0 1em',}}>
+            <input type="text" class="form__field" placeholder="Search" onChange={(e)=>searchSpace(e)}/>
+            <button>취소</button>
+        </div>
         <div className="interestList">
             <div>
                 <span className="interestListText">관심목록</span>
@@ -33,6 +48,7 @@ function InterestList() {
                 </ul>
             </div>
         </div>
+        </span>
     );
 }
 

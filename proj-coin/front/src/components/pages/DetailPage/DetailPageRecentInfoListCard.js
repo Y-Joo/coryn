@@ -7,12 +7,12 @@ function RecentInfoListCard(props) {
     <div className="DP_card">
         <div className="DP_divisionBox"></div>
         <div className="DP_info">
-            <div className="DP_title">bitcoin 호재 업로드 날짜</div>
+            <div className="DP_title">{props.title}</div>
             <div className="DP_sub">
-                <div className="DP_source">구글뉴스</div>
+                <div className="DP_source">{props.source}</div>
                 <div className="DP_time">
-                    <div className="DP_uploadTime">upload.date / 08.24</div>
-                    <div className="DP_releaseTime">release.date / 09.17</div>
+                    <div className="DP_uploadTime">{props.upload_date}</div>
+                    <div className="DP_releaseTime">{props.realease_date}</div>
                 </div>
             </div>
         </div>

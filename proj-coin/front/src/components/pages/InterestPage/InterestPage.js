@@ -6,7 +6,6 @@ import InterestList from './InterestList';
 function InterestPage() {
     return(
         <div style={{backgroundColor:"rgb(243,242,246)",height:'80vh',overflow:'auto'}}>
-            <SearchBox></SearchBox>
             <InterestList/>
             <RecentInfoList/>
         </div>

@@ -5,9 +5,10 @@ const axios = require('axios');
 
 function RecentInfoList(props) {
 
-    const items = props.videoData
+    const items = props.newsData
+
     const ItemList = items && items.map((item) =>
-    (<Card name={item.coin_name ?? ''} price={item.coin_price[0].price ?? ''} pricerate={item.coin_price[0].day_change ?? ''} img={item.coin_img   ?? ''}></Card>
+    (<Card title={item.title ?? ''} source={item.source ?? ''} upload_date={item.upload_date ?? ''} realease_date={item.realease_date ?? ''}></Card>
     )
     );
     return(

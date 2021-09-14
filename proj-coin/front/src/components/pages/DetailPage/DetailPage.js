@@ -27,7 +27,7 @@ function DetailPage({match}) {
             <Card name={coinData.coin_name ?? ''} img={coinData.coin_img ?? ''} price={coinPrice.price ?? ''} pricerate={coinPrice.day_change ?? ''}></Card>
             <Chart></Chart>
             <div>
-                <News></News>
+                <News newsData={coinData.coin_newses}></News>
             </div>
         </div>
     );
