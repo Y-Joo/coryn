@@ -15,49 +15,69 @@ function uuidv4() {
 
 function CalendarPage() {
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [coinData, setcoinData] = useState({});
-    const [selectedKey, setSelectedKey] = useState("");
+    const [coinData, setcoinData] = useState();
+    const [selectedKey, setSelectedKey] = useState(""); // 날짜
     const [isModalDetailVisible, setIsModalDetailVisible] = useState(false);
-    const [selectedDetailKey, setSelectedDetailKey] = useState("");
+    const [selectedDetailKey, setSelectedDetailKey] = useState(""); // kr_coinname
     const [coinNameData, setCoinNameData] = useState({});
     const [selectedExchange, setSelectedExchange] = useState("upbit");
 
     useEffect(() => {
-      axios.get('http://13.124.18.171/api/getCoinData')
+      axios.get('api/v1/coin/news/good/')
         .then((response) => {
-          setcoinData(JSON.parse(response.data[0].content));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      axios.get('http://13.124.18.171/api/getCoinName')
-        .then((response) => {
-          setCoinNameData(JSON.parse(response.data[0].content))
-          console.log(JSON.parse(response.data[0].content))
+          console.log(response.data)
+          setcoinData(response.data);
         })
         .catch((err) => {
           console.log(err);
         });
     }, [])
+    var listData = coinData ?? '';
 
     function dateCellRender(value) {
-      let tmpKey = value.year() + '/' + String(Number(value.month())+1) + '/' + value.date();
       // console.log(coinData[tmpKey]);
       //console.log(upbitCoin);
-      let listData = [];
-      for (var key in coinData[tmpKey]) {
-        if (key in coinNameData[selectedExchange]) {
-          listData.push({coinSymbol: key, coinKoreanName: coinNameData[selectedExchange][key]});
+      //const listData = coinData ?? '';
+      var month=0;
+      var date=0;
+      if(Number(value.month())+1<10){
+        month = '0'+(Number(value.month())+1);
+      }
+      else{
+        month = (Number(value.month())+1);
+      }
+      if(value.date()<10){
+        date = '0'+value.date();
+      }
+      else{
+        date = value.date();
+      }
+      let tmpKey = value.year() + '-' + String(month) + '-' + date;
+      const data = [];
+      for(var i=0;i<listData.length;i++){
+        var itemDate = listData[i].release_date.toString().substr(0,10)
+        if(itemDate === tmpKey){
+          for(var coin of listData[i].coins){
+            data.push({coin_name: coin.coin_name, kr_name: coin.kr_name, ticker: coin.ticker, link: listData[i].link , realease_date: itemDate, title: listData[i].title})
+          }
         }
       }
+      const tickerdata = data.filter((item,pos)=>{
+        var flag=0;
+        for(var i=0;i<pos;i++){
+          if(item.ticker == data[i].ticker)
+            flag++;
+        }
+        if(flag==0) return item;
+      }).map(item => (
+          <li key={uuidv4()}>
+            <span style={{fontSize: '0.6rem'}}>{item.ticker.split('-')[1]}</span>
+          </li>
+        ))
 
       return (
         <ul className="events">
-          {listData.map(item => (
-            <li key={uuidv4()}>
-              <span style={{fontSize: '0.6rem'}}>{item.coinSymbol}</span>
-            </li>
-          ))}
+          {tickerdata}
         </ul>
       );
     }
@@ -68,24 +88,28 @@ function CalendarPage() {
 
     const modal = () => {
       // console.log(coinData);
+      const data = [];
+          for(var i=0;i<listData.length;i++){
+            var itemDate = listData[i].release_date.toString().substr(0,10)
+            if(itemDate === selectedKey){
+              for(var coin of listData[i].coins){
+                data.push({coin_name: coin.coin_name, kr_name: coin.kr_name, ticker: coin.ticker.split('-')[1], link: listData[i].link , realease_date: itemDate, title: listData[i].title})
+              }
+            }
+          }
 
       // 모달이 이미 띄워져있는 경우
       if (isModalDetailVisible) {
-        let listData = [];
-          for (var keyDate in coinData) {
-            if (selectedDetailKey in coinData[keyDate]) {
-              for (var indx in coinData[keyDate][selectedDetailKey]) {
-                let url = coinData[keyDate][selectedDetailKey][indx][0];
-                let explain = coinData[keyDate][selectedDetailKey][indx][1]; 
-                let fullName = coinData[keyDate][selectedDetailKey][indx][2]; 
-                listData.push({date: keyDate, url: url, explain: explain, fullName: fullName});
-              }
-            } 
+        let newsData = []
+        newsData = data && data.filter((item)=>{
+          if(item.kr_name == selectedDetailKey){
+            return item;
           }
+        });
 
         return (
           <Modal 
-              title={ coinNameData[selectedExchange][selectedDetailKey] + " " + listData[0]['fullName'] + ' (' + selectedDetailKey + ')' }
+              title={ selectedDetailKey + ' ' + newsData[0].coin_name + ' ' + '(' +newsData[0].ticker+ ')'}
               visible={isModalVisible} 
               onOk={handleOk}
               onCancel={handleCancel}
@@ -95,9 +119,9 @@ function CalendarPage() {
               </Button>,
               ]}>
             <ul className="modal" style={{overflow: 'auto', maxHeight: '10rem'}}>
-              {listData.map(item => (
-                <li key={item.url} style={{marginBottom: '0.2rem'}}>
-                  <a className="modal-content" href={item.url} target="_blank">{item.date + " " + item.explain}</a>
+              {newsData && newsData.map(item => (
+                <li key={item.link} style={{marginBottom: '0.2rem'}}>
+                  <a className="modal-content" href={item.link} target="_blank">{item.realease_date + ' ' + item.title}</a>
                 </li>
               ))}
             </ul>
@@ -106,12 +130,20 @@ function CalendarPage() {
       } 
       // 모달이 처음 띄워지는 경우
       else {
-          let listData = [];
-          for (var key in coinData[selectedKey]) 
-            if (key in coinNameData[selectedExchange]) 
-              listData.push({coinSymbol: key, coinKoreanName: coinNameData[selectedExchange][key]});
-          
-          if (listData.length != 0)
+          //let listData = coinData ?? null;
+          const data2 = data && data.filter((item,pos)=>{        
+              for(var i=0;i<pos;i++){
+                if(data[i].ticker == item.ticker)
+                  return;
+              }
+              return item
+            }
+            ).map(item => (
+            <li key={uuidv4()} style={{marginBottom: '0.2rem'}}>
+              <a className="modal-content" onClick={() => {setSelectedDetailKey(item.kr_name); setIsModalDetailVisible(true);}}>{item.kr_name +  ' (' + item.ticker + ')'}</a>
+            </li>
+          )) 
+          if (listData !== ''){
             return (
               <Modal 
                   title={selectedKey}
@@ -124,19 +156,24 @@ function CalendarPage() {
                   </Button>,
                   ]}>
                 <ul className="modal" style={{overflow: 'auto', maxHeight: '10rem'}}>
-                  {listData.map(item => (
-                    <li key={uuidv4()} style={{marginBottom: '0.2rem'}}>
-                      <a className="modal-content" onClick={() => {setSelectedDetailKey(item.coinSymbol); setIsModalDetailVisible(true);}}>{item.coinKoreanName +  ' (' + item.coinSymbol + ')'}</a>
-                    </li>
-                  ))}
+                  {data2}
                 </ul>
               </Modal>
             )
+          }
       }
     }
 
     const onClickCalendar = (value) => {
-      setSelectedKey(value.year() + '/' + String(Number(value.month())+1) + '/' + value.date());
+      var month=(Number(value.month())+1);
+      var date=value.date();
+      if(Number(value.month())+1<10){
+        month = '0'+(Number(value.month())+1);
+      }
+      if(value.date()<10){
+        date = '0'+value.date();
+      }
+      setSelectedKey(value.year() + '-' + String(month) + '-' + date);
       showModal();
     }
 
@@ -153,11 +190,6 @@ function CalendarPage() {
       setIsModalVisible(false);
       setIsModalDetailVisible(false);
     };
-    
-    const handleOptionChange = (value) => {
-      setSelectedExchange(value)
-      console.log(value)
-    }
 
     return (
       <div className='container'>
@@ -203,18 +235,6 @@ function CalendarPage() {
                         }}
                       >
                         {monthOptions}
-                      </Select>
-                    </Col>
-                    <Col>
-                      <Select
-                        size="small"
-                        dropdownMatchSelectWidth={false}
-                        defaultValue="upbit"
-                        onChange={handleOptionChange}>
-                        <Option value="upbit">Upbit</Option>
-                        <Option value="bitsum">Bitsum</Option>
-                        <Option value="coinone">Coinone</Option>
-                        <Option value="coinbit">Coinbit</Option>
                       </Select>
                     </Col>
                   </Row>

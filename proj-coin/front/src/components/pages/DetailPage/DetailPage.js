@@ -25,7 +25,7 @@ function DetailPage({match}) {
     return (
         <div style={{backgroundColor:"rgb(243,242,246)", width:'100vw', height:'80vh',overflow:'auto'}}>
             <Card name={coinData.coin_name ?? ''} img={coinData.coin_img ?? ''} price={coinPrice.price ?? ''} pricerate={coinPrice.day_change ?? ''}></Card>
-            <Chart></Chart>
+            <Chart coin_price={coinPrice ?? ''} coin_times={coinData.times ?? ''}></Chart>
             <div>
                 <News newsData={coinData.coin_newses}></News>
             </div>

@@ -64,3 +64,9 @@ class CoinGoodNewsView(APIView):
                 print(serializer_class.errors)
                 print('not save!')
         return Response(status=status.HTTP_200_OK)
+    
+    def get(self, request):
+        queryset = CoinNews.objects.filter(type=1)
+        serializer_class = CoinNewsSerializer(data=queryset, many=True)
+        serializer_class.is_valid()
+        return JsonResponse(serializer_class.data, safe=False)
