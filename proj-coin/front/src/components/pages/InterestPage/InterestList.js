@@ -8,16 +8,24 @@ const axios = require('axios');
 
 function InterestList() {
     const [videoData, setVideoData] = useState([])
-    useEffect(() => {
+    const getPosts = async () => {
         axios.get(`/api/v1/coin/list/`)
             .then((response) => {
-                console.log(response.data)
+                //console.log(response.data)
                 setVideoData(response.data);
             }).catch((error) => {
                 console.log(error);
             });
-     }, [])
-
+     }
+     useEffect(() => {
+        getPosts()
+        const interval=setInterval(()=>{
+                getPosts()
+                },5000)
+                
+                
+        return()=>clearInterval(interval)
+    }, [])
     const [keyword,setKeyword] = useState([]);
     function searchSpace(event){
         setKeyword(event.target.value);
@@ -29,7 +37,7 @@ function InterestList() {
         else if(item.coin_name.toLowerCase().includes(keyword.toLowerCase()) || item.kr_name.includes(keyword)){
             return item
     }}).map((item) =>
-    (<li><Link to={"/detail/"+item.ticker}  style={{textDecoration:'none',color:'inherit'}}><Card name={item.coin_name ?? ''} price={item.coin_price[0].price ?? ''} pricerate={item.coin_price[0].day_change ?? ''} img={item.coin_img   ?? ''}></Card><Divider/></Link></li>
+    (<li><Link to={"/detail/"+item.ticker}  style={{textDecoration:'none',color:'inherit'}}><Card name={item.kr_name ?? ''} ticker={item.ticker ?? ''} price={item.coin_price[0].price ?? ''} pricerate={item.coin_price[0].day_change ?? ''} img={item.coin_img   ?? ''}></Card><Divider/></Link></li>
     )
     );
     return (

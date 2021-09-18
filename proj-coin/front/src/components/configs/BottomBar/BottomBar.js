@@ -4,8 +4,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import BottomNavigation from './BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import EventNote from '@material-ui/icons/EventNote';
-import List from '@material-ui/icons/List';
+import HomeIcon from '@mui/icons-material/Home';
 import Equalizer from '@material-ui/icons/Equalizer';
+import Button from '@mui/material/Button';
 
 const useStyles = makeStyles({
   root: {
@@ -33,7 +34,7 @@ export default function BottomBar() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const [barNumber, setBarNumber] = React.useState(1);
-  const selectedColor = 'aliceblue';
+  const selectedColor = 'rgba(25,0,200,0.5)';
   const defaultColor = 'grey';
   
   const onclickHandler = (e) => {
@@ -54,9 +55,8 @@ export default function BottomBar() {
 
   return (
     <div className={classes.root}>
-      <Link to='/interest' className={classes.linkbox}><div id="1" className={classes.button} onClick={(e) =>onclickHandler(e)} style={{color:`${colorHandler(1)}`}}><List style={{height:'50%', width:'auto', pointerEvents:'none'}}/></div></Link>
+      <Link to='/interest' className={classes.linkbox}><div id="1" className={classes.button} onClick={(e) =>onclickHandler(e)} style={{color:`${colorHandler(1)}`}}><HomeIcon style={{height:'50%', width:'auto', pointerEvents:'none'}}/></div></Link>
       <Link to='/calendar' className={classes.linkbox}><div id="2" className={classes.button} onClick={(e) =>onclickHandler(e)} style={{color:`${colorHandler(2)}`}}><EventNote style={{height:'50%', width:'auto', pointerEvents:'none'}}/></div></Link>
-      <Link to='/detail' className={classes.linkbox}><div id="3" className={classes.button} onClick={(e) =>onclickHandler(e)} style={{color:`${colorHandler(3)}`}}><Equalizer style={{height:'50%', width:'auto', pointerEvents:'none'}}/></div></Link>
     </div>
     // <span>
     //   <BottomNavigation>

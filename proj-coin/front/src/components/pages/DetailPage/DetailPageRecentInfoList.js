@@ -8,7 +8,7 @@ function RecentInfoList(props) {
     const items = props.newsData
 
     const ItemList = items && items.map((item) =>
-    (<Card title={item.title ?? ''} source={item.source ?? ''} upload_date={item.upload_date ?? ''} realease_date={item.realease_date ?? ''}></Card>
+    (<Card title={item.title ?? ''} link={item.link ?? ''} source={item.source ?? ''} upload_date={item.upload_date ?? ''} release_date={item.release_date ?? ''}></Card>
     )
     );
     return(

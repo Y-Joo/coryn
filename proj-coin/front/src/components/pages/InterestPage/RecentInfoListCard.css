@@ -59,6 +59,11 @@
 .RecentInfoListCardNewsTitle{
     font-size: 18px;
     font-weight: bolder;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 .triangle_up{
   width: 0px;height: 0px;

@@ -26,7 +26,6 @@ function App() {
   return (
     <Suspense fallback={(<div>Loading...</div>)}>
         <div className={classes.root}>
-        <Header></Header>
         <Switch>
           <Route exact path="/interest" component={InterestPage} />
           <Route exact path="/detail/:videoId" component={DetailPage} />

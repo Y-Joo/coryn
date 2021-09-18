@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Calendar, Select, Button, Modal, Typography, Row, Col } from 'antd';
 import './CalendarPage.css'
 import "./antdCalendar.css";
+import Header from '../../configs/Header/Bar'
+import { Link } from 'react-router-dom';
+
 
 const axios = require('axios');
 const { Option } = Select;
@@ -25,7 +28,7 @@ function CalendarPage() {
     useEffect(() => {
       axios.get('api/v1/coin/news/good/')
         .then((response) => {
-          console.log(response.data)
+          //console.log(response.data)
           setcoinData(response.data);
         })
         .catch((err) => {
@@ -93,7 +96,7 @@ function CalendarPage() {
             var itemDate = listData[i].release_date.toString().substr(0,10)
             if(itemDate === selectedKey){
               for(var coin of listData[i].coins){
-                data.push({coin_name: coin.coin_name, kr_name: coin.kr_name, ticker: coin.ticker.split('-')[1], link: listData[i].link , realease_date: itemDate, title: listData[i].title})
+                data.push({coin_name: coin.coin_name, kr_name: coin.kr_name, ticker: coin.ticker, link: listData[i].link , realease_date: itemDate, title: listData[i].title})
               }
             }
           }
@@ -109,7 +112,7 @@ function CalendarPage() {
 
         return (
           <Modal 
-              title={ selectedDetailKey + ' ' + newsData[0].coin_name + ' ' + '(' +newsData[0].ticker+ ')'}
+              title={ <Link to={"/detail/"+newsData[0].ticker}  style={{textDecoration:'none',color:'inherit'}}>{selectedDetailKey + ' ' + newsData[0].coin_name + ' ' + '(' +newsData[0].ticker.split('-')[1]+ ')'}</Link>}
               visible={isModalVisible} 
               onOk={handleOk}
               onCancel={handleCancel}
@@ -140,7 +143,7 @@ function CalendarPage() {
             }
             ).map(item => (
             <li key={uuidv4()} style={{marginBottom: '0.2rem'}}>
-              <a className="modal-content" onClick={() => {setSelectedDetailKey(item.kr_name); setIsModalDetailVisible(true);}}>{item.kr_name +  ' (' + item.ticker + ')'}</a>
+              <a className="modal-content" onClick={() => {setSelectedDetailKey(item.kr_name); setIsModalDetailVisible(true);}}>{item.kr_name +  ' (' + item.ticker.split('-')[1] + ')'}</a>
             </li>
           )) 
           if (listData !== ''){
@@ -192,6 +195,8 @@ function CalendarPage() {
     };
 
     return (
+      <span>
+      <Header>호재 달력</Header>
       <div className='container'>
         {modal()}
           <Calendar 
@@ -243,6 +248,7 @@ function CalendarPage() {
             }}
             />
       </div>
+      </span>
     )
 }
 

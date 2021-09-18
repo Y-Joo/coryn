@@ -12,6 +12,8 @@ function RecentInfoListCard(props) {
     //     RecentInfoListCardCoinRisingPriceRate = "RecentInfoListCardCoinRisingPriceRate_down";
     // }
     return(
+    <span>
+    <a href={props.link} style={{color:'rgb(0,0,0)' ,textDecoration:'none'}}>
     <div className="RecentInfoListCard">
         {/* <div className="RecentInfoListCardInfo">
             <div className="RecentInfoListCardExchangeRate">
@@ -30,10 +32,12 @@ function RecentInfoListCard(props) {
             </div>
         </div> */}
         <div className="RecentInfoListCardNews">
-            <div className="RecentInfoListCardTime">{props.upload_date}</div>
+            <div className="RecentInfoListCardTime">{props.upload_date.split('T')[0]+' | '+props.upload_date.split('T')[1].substr(0,8)}</div>
             <div className="RecentInfoListCardNewsTitle">{props.title}</div>
         </div>
     </div>
+    </a>
+    </span>
     );
 }
 

@@ -11,9 +11,6 @@ class ApexChart extends React.Component {
     }
 
     render() {
-        console.log(this.props);
-        console.log(this.props.coin_price)
-        console.log(this.props.coin_times)
         const item = this.props
         const coinPrice = this.props.coin_price
         const items = this.props.coin_times
@@ -35,7 +32,7 @@ class ApexChart extends React.Component {
             ItemList = []
         }  
         function a(item) {
-            console.log(item)
+            ///console.log(item)
             if(Object.keys(item.coin_times).length !== 0 && Object.keys(item.coin_price).length !== 0){
                 var price = {
                     'open': item.coin_price.week_open.split(','),
@@ -43,7 +40,7 @@ class ApexChart extends React.Component {
                     'low': item.coin_price.week_low.split(','),
                     'close': item.coin_price.week_close.split(','),
                 }
-                console.log(item.coin_price)
+                //console.log(item.coin_price)
                 ItemList = items && items.map((item, index) => ({  
                     x: new Date(item.substr(0,19)),
                     y: [ parseFloat(price.open[index]), parseFloat(price.high[index]), parseFloat(price.low[index]), parseFloat(price.close[index])] }
@@ -63,46 +60,46 @@ class ApexChart extends React.Component {
                 chart: {
                     type: 'candlestick',
                     height: 350,
-                    toolbar:{
-                        tools:{
-                            customIcons: [{
-                                icon: '주',
-                                index: 2,
-                                title: 'tooltip of the icon',
-                                class: 'custom-icon',
-                                click: function (chart, options, e) {
-                                    console.log("clicked custom-icon")}
-                            },
-                            {
-                                icon: '일',
-                                index: 3,
-                                title: 'tooltip of the icon',
-                                class: 'custom-icon',
-                                click: function (chart, options, e) {
-                                  console.log("clicked custom-icon")
-                                }
-                            },
-                            {
-                                icon: '시',
-                                index: 4,
-                                title: 'tooltip of the icon',
-                                class: 'custom-icon',
-                                click: function (chart, options, e) {
-                                  console.log("clicked custom-icon")
-                                }
-                            },
-                            {
-                                icon: '분',
-                                index: 5,
-                                title: 'tooltip of the icon',
-                                class: 'custom-icon',
-                                click: function (chart, options, e) {
-                                  console.log("clicked custom-icon")
-                                }
-                            },
-                        ]
-                        }
-                    },
+                    // toolbar:{
+                    //     tools:{
+                    //         customIcons: [{
+                    //             icon: '주',
+                    //             index: 2,
+                    //             title: 'tooltip of the icon',
+                    //             class: 'custom-icon',
+                    //             click: function (chart, options, e) {
+                    //                 console.log("clicked custom-icon")}
+                    //         },
+                    //         {
+                    //             icon: '일',
+                    //             index: 3,
+                    //             title: 'tooltip of the icon',
+                    //             class: 'custom-icon',
+                    //             click: function (chart, options, e) {
+                    //               console.log("clicked custom-icon")
+                    //             }
+                    //         },
+                    //         {
+                    //             icon: '시',
+                    //             index: 4,
+                    //             title: 'tooltip of the icon',
+                    //             class: 'custom-icon',
+                    //             click: function (chart, options, e) {
+                    //               console.log("clicked custom-icon")
+                    //             }
+                    //         },
+                    //         {
+                    //             icon: '분',
+                    //             index: 5,
+                    //             title: 'tooltip of the icon',
+                    //             class: 'custom-icon',
+                    //             click: function (chart, options, e) {
+                    //               console.log("clicked custom-icon")
+                    //             }
+                    //         },
+                    //     ]
+                    //     }
+                    // },
                 },
                 title: {
                     text: this.props.coin_name,

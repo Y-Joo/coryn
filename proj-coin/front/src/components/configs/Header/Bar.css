@@ -13,5 +13,6 @@
     font-weight: bolder;
 }
 .bar img {
-    margin: 0.5em;
+  width: 25px;
+  height: 39px;
 }
