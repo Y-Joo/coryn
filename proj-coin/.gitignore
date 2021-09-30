@@ -1,0 +1,8 @@
+venv
+secret
+test
+.idea
+__pycache__
+node_modules
+
+
