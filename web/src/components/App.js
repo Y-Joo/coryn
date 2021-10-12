@@ -6,7 +6,7 @@ import InterestPage from './pages/InterestPage/InterestPage';
 import DetailPage from './pages/DetailPage/DetailPage';
 //import DetailPage from './pages/DetailPage/DetailPage'
 import './App.css'
-import BottomBar from '../components/configs/BottomBar/BottomBar'
+import BottomBar from './configs/BottomBar/BottomBar'
 import CalendarPage from './pages/CalendarPage/CalendarPage';
 import { makeStyles } from '@material-ui/core/styles';
 

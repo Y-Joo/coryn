@@ -1,6 +1,6 @@
 import React from 'react';
-import set_icon from '../Header/img/settingicon.png';
-import ballon_icon from '../Header/img/ballonicon.png';
+import set_icon from './img/settingicon.png';
+import ballon_icon from './img/ballonicon.png';
 import './Bar.css'
 import { Link } from 'react-router-dom';
 
